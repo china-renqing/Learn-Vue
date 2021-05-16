@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- CDN方式引入Vue.js，该方式引入js如需使用，需要联网 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .size {
+            width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <fieldset>
+            <legend>v-text</legend>
+            <!-- v-text:该写法p标签里面的内容不显示 -->
+            <p>v-text</p>
+            <p v-text="msg">v-text的输出：</p>
+            <!-- 两者写法实现相同的效果 -->
+            <p>大胡子语法的输出：{{msg}}</p>
+        </fieldset>
+
+        <fieldset>
+            <legend>v-show</legend>
+            <!-- v-show:根据表达式的真假，切换元素的display CSS property -->
+            <p>v-show</p>
+            <div v-show="ok">v-show的显示和隐藏</div>
+            <br>
+        </fieldset>
+
+        <fieldset>
+            <legend>v-if</legend>
+            <!-- v-if:用于显示想要显示的节点，不显示的节点不加载，与v-show不同，v-show是不管是否显示，都会生成节点 -->
+            <p>v-if</p>
+            <div v-if="type==='A'">
+                输出A
+            </div>
+            <div v-else-if="type==='B'">
+                输出B
+            </div>
+            <div v-else>
+                输出Not A/B
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>v-for</legend>
+            <!-- v-for:可以接收数组、对象、数字、字符串、Iterable -->
+            <!-- 可以和v-if连用，用于做出赛选 -->
+            <p>v-for</p>
+            <div v-for="item in person" v-if='item.age<=30'>
+                姓名：{{item.name}}
+                年龄：{{item.age}}
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>v-on</legend>
+            <!-- 
+            v-on
+                缩写：@
+                可以接收：函数、Inline Statement、Object，参数event
+                参数：event
+        -->
+            <p>v-on</p>
+            <div>{{count}}</div>
+            <button v-on:click="addCount">count++</button>
+            <button @click="changeCountToText('hello')">changeCountToText</button>
+            <!-- 修饰符：用于做限制 -->
+            <button @click.once='addCount'>只可以触发一次</button>
+        </fieldset>
+
+        <fieldset>
+            <legend>v-bind</legend>
+            <!-- 
+            v-bind
+                缩写： :
+                预期：any(with argument)|Object(with argument)
+                参数：attrOrProp(optional)
+            -->
+            <p>v-bind:用百度图片作为案例</p>
+            <img style="width: 100px;" v-bind:src="imgSrc" />
+            <p>缩写,并将class作为绑定</p>
+            <img :class="classA" :src="imgSrc" />
+        </fieldset>
+
+
+
+        <fieldset>
+            <legend>v-model</legend>
+            <!-- 
+            v-model
+                预期:随表单控件类型不同而不同
+                限制:
+                    input
+                    select
+                    textarea
+                    components
+                修饰符
+                    .lazy 取代input监听change事件
+                    .number 输入字符串转换为有效数字
+                    .trim 输入首位空格过滤
+            -->
+            <p>v-model</p>
+            <p>单行文本</p>
+            <input type="text" v-model="message">
+            <p>Message is:{{message}}</p>
+
+            <p>多行文本</p>
+            <textarea v-model="message" placeholder="添加多行文本"></textarea>
+            <p style="white-space: pre-line;">message is :{{message}}</p>
+
+            <p>复选框</p>
+            <input type="checkbox" id="checkbox" v-model="checked">
+            <label for="checkbox">{{ checked }}</label>
+
+        </fieldset>
+
+    </div>
+    <script>
+        const app = new Vue({
+            el: "#app",
+            data: {
+                msg: "hello world!", //文本
+                ok: true, //show是否显示
+                type: 'D', //v-if判断时的值
+                count: 0, //count,用于显示和更改
+                classA: 'size', //类名
+                message: "",
+                checked: false,
+                imgSrc: 'https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png',
+                person: [{
+                    name: "庆蝈蝈",
+                    age: 20
+                }, {
+                    name: "李先生",
+                    age: 30
+                }, {
+                    name: "黄先生",
+                    age: 40
+                }]
+            },
+            methods: {
+                addCount() {
+                    this.count++;
+                },
+                changeCountToText(msg) {
+                    this.count = msg
+                }
+
+            },
+            computed: {
+                name() {
+                    return this.data
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
